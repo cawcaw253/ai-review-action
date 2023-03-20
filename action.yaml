@@ -1,0 +1,16 @@
+name: "ChatGPT Code Review"
+description: "Code review action with ChatGPT"
+branding:
+  icon: activity
+  color: green
+
+inputs:
+  OPENAI_API_KEY:
+    description: "OpenAI API KEY for test (it should be secrets"
+outputs:
+  comment:
+    description: "Comment from chatgpt"
+
+runs:
+  using: "node18"
+  main: "dist/index.js"
