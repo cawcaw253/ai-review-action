@@ -9,4 +9,9 @@ jobs:
     runs-on: ubuntu-latest
     name: test action
     steps:
-      - uses: actions/checkout@v3
+      - name: ChatGPT review
+        uses: detectiveCrow/ai-review-action@5-create-callable-js-module
+        id: review
+        with:
+          OPENAI_API_KEY: "openai_test_api_key"
+
