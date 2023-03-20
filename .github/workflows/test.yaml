@@ -1,0 +1,12 @@
+name: Test
+
+on:
+  pull_request:
+    types: [opened, synchronize]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    name: test action
+    steps:
+      - uses: actions/checkout@v3
