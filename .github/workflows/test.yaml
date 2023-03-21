@@ -13,11 +13,12 @@ jobs:
       - name: ChatGPT review
         uses: detectiveCrow/ai-review-action@5-create-callable-js-module
         id: review
-        with:
-          OPENAI_API_KEY: "openai_test_api_key"
-      - uses: anc95/ChatGPT-CodeReview@main
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
-          # Optional
-          LANGUAGE: Korean
+          OPENAI_API_KEY: "openai_test_api_key"
+      # - uses: anc95/ChatGPT-CodeReview@main
+      #   env:
+      #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      #     OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+      #     # Optional
+      #     LANGUAGE: Korean
