@@ -1,0 +1,29 @@
+{
+  "name": "ai-review-action",
+  "version": "1.0.0",
+  "description": "ai review action",
+  "main": "index.js",
+  "scripts": {
+    "test": "jest",
+    "build": "ncc build src/index.js -o dist --source-map --license license.txt"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/detectiveCrow/ai-review-action.git"
+  },
+  "keywords": [
+    "GitHub",
+    "Actions"
+  ],
+  "author": "detectiveCrow",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/detectiveCrow/ai-review-action/issues"
+  },
+  "homepage": "https://github.com/detectiveCrow/ai-review-action#readme",
+  "dependencies": {
+    "@actions/github": "^5.1.1",
+    "@octokit/rest": "^19.0.7",
+    "@vercel/ncc": "^0.36.1"
+  }
+}
