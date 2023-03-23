@@ -17329,7 +17329,8 @@ const { context } = __nccwpck_require__(5438);
 const { Octokit } = __nccwpck_require__(5375);
 const { Configuration, OpenAIApi } = __nccwpck_require__(9211);
 
-const MAX_PATCH_COUNT = 3000;
+const MAX_PATCH_COUNT = 4000;
+const MAX_TOKENS = 3000;
 
 async function initOpenAI(key) {
   // https://platform.openai.com/docs/api-reference/completions/create
@@ -17346,7 +17347,7 @@ async function codeReview(openAI, code, model = 'gpt-3.5-turbo') {
   }
 
   const language = process.env.LANGUAGE ?  `Answer me in ${process.env.LANGUAGE}` : '';
-  const message = `Please brief code review below code patch, ${language}
+  const message = `Below is the code patch, please do a brief code review, and ${language}. if any bug, risk, improvement suggestion please let me know
   ${code}
   `;
 
@@ -17356,12 +17357,11 @@ async function codeReview(openAI, code, model = 'gpt-3.5-turbo') {
     const response = await openAI.createChatCompletion({
       model: model,
       messages: [{ role: 'user', content: String(message) }],
-      max_tokens: MAX_PATCH_COUNT,
+      max_tokens: MAX_TOKENS,
       temperature: 1,
-      stream: false,
     });
 
-    console.log(`response received! "${response.data.choices[0].message.content}"`);
+    console.log(`response received! response is "${response.data.choices[0].message.content}"`);
 
     return response.data.choices[0].message.content;
   } catch (error) {
@@ -17418,7 +17418,7 @@ async function run() {
 
   // Review code
   for (let i = 0; i < changedFiles.length; i++) {
-    console.log(`review (${i + 1}/${changedFiles.length})`);
+    console.log(`review (${i + 1}/${changedFiles.length}) start`);
     const file = changedFiles[i];
     const patch = file.patch || '';
 
@@ -17432,7 +17432,7 @@ async function run() {
 
     // Get response from chat instance
     const response = await codeReview(openAI, String(patch))
-
+    console.log(`create review comment now...`);
     await octokit.pulls.createReviewComment({
       repo: repo,
       owner: owner,
@@ -17445,6 +17445,7 @@ async function run() {
   }
 
   console.timeEnd('gpt cost');
+
   console.info('suceess reviewed', context.payload.pull_request.html_url);
 
   return 'complete';
