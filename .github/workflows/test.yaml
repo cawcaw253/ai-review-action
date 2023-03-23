@@ -11,11 +11,13 @@ jobs:
     name: test action
     steps:
       - name: ChatGPT review
-        uses: detectiveCrow/ai-review-action@5-create-callable-js-module
+        uses: detectiveCrow/ai-review-action@1-add-callable-chat-gpt
         id: review
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          OPENAI_API_KEY: "openai_test_api_key"
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+          LANGUAGE: "korean"
+
       # - uses: anc95/ChatGPT-CodeReview@main
       #   env:
       #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
