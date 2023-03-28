@@ -10,8 +10,10 @@ jobs:
     runs-on: ubuntu-latest
     name: test action
     steps:
+      - name: Checkout
+        uses: actions/checkout@v3
       - name: ChatGPT review
-        uses: detectiveCrow/ai-review-action@1-add-callable-chat-gpt
+        uses: ./
         id: review
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
