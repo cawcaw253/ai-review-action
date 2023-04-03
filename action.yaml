@@ -1,16 +1,28 @@
-name: "ChatGPT Code Review"
-description: "Code review action with ChatGPT"
+name: "OpenAI PR Review"
+description: "Pull Request code review action with OpenAI"
 branding:
   icon: activity
   color: green
 
 inputs:
   OPENAI_API_KEY:
-    description: "OpenAI API KEY for test (it should be secrets"
+    description: "OpenAI API Key for test"
+    required: true
+  GITHUB_TOKEN:
+    description: "Token for checkout code and add comment"
+    required: true
+  LANGUAGE:
+    description: "Language for comments"
+    required: false
+    default: "English"
 outputs:
   comment:
     description: "Comment from chatgpt"
 
 runs:
-  using: "node16"
-  main: "dist/index.js"
+  using: docker
+  image: Dockerfile
+  env:
+    OPENAI_API_KEY: ${{ inputs.OPENAI_API_KEY }}
+    GITHUB_TOKEN: ${{ inputs.GITHUB_TOKEN }}
+    LANGUAGE: ${{ inputs.LANGUAGE }}
