@@ -1,0 +1,28 @@
+name: Release Action
+
+on:
+  pull_request
+
+jobs:
+  create-release:
+    # if: github.event.pull_request.merged
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v3
+    - name: Set Up Node
+      uses: actions/setup-node@v3
+      with:
+        node-version: 18.15
+    - name: Package Install
+      run: npm install
+    - name: Build
+      run: npm run build
+    - name: Release
+      uses: ncipollo/release-action@v1
+      with:
+        artifacts: "Dockerfile,LICENSE,action.yaml,dist"
+        bodyFile: "release/note.md"
+        tag: "1.0.0"

@@ -1,5 +1,5 @@
-name: "ChatGPT Code Review"
-description: "Code review action with ChatGPT"
+name: "OpenAI PR Review"
+description: "Pull Request code review action with OpenAI"
 branding:
   icon: activity
   color: green
