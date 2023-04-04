@@ -1,8 +1,9 @@
 name: "OpenAI PR Review"
+author: "detectiveCrow"
 description: "Pull Request code review action with OpenAI"
 branding:
-  icon: activity
-  color: green
+  icon: message-square
+  color: white
 
 inputs:
   OPENAI_API_KEY:
@@ -15,6 +16,7 @@ inputs:
     description: "Language for comments"
     required: false
     default: "English"
+
 outputs:
   comment:
     description: "Comment from chatgpt"

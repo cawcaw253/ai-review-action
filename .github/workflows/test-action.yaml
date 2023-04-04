@@ -24,7 +24,7 @@ jobs:
         uses: izhangzhihao/delete-comment@master
         with: 
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          delete_user_name: open-collective-bot[bot]
+          delete_user_name: github-actions[bot]
           issue_number: ${{ github.event.number }} 
         
       - name: OpenAI review current branch
