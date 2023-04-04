@@ -1,0 +1,29 @@
+name: Test Action
+
+on:
+  pull_request:
+    types: [opened, synchronize]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    name: test action
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      # # Uncomment when comment delete feature added
+      # - name: OpenAI PR Review
+      #   uses: detectiveCrow/ai-review-action@latest
+      #   with:
+      #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      #     OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+      #     LANGUAGE: "english"
+
+      - name: OpenAI review current branch
+        uses: ./
+        id: review
+        with:
+          GITHUB_TOKEN: ${{ secrets.GH_PAT }}
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+          LANGUAGE: "korean"
