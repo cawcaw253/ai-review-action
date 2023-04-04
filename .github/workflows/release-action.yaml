@@ -24,6 +24,5 @@ jobs:
     - name: Release
       uses: ncipollo/release-action@v1
       with:
-        artifacts: "Dockerfile,LICENSE,action.yaml,dist"
         bodyFile: "release/note.md"
-        tag: "latest"
+        tag: "v1.0.0"
