@@ -1,3 +1,4 @@
 # Updated
 
-- Create OpenAI PR code review with javascript
+- update test action
+- update readme file

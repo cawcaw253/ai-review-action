@@ -2,9 +2,24 @@
 
 OpenAI generate code review when Pull Request opened.
 
+![review_example](./release/capture.png)
+
 # How to use
 
-Please check jobs permission when leave comment action failed.
+When you use Personal Access Token, please check permission.
+
+```
+
+name: OpenAI PR Review
+uses: detectiveCrow/ai-review-action@latest
+with:
+  GITHUB_TOKEN: ${{ secrets.GH_PAT }}
+  OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+  LANGUAGE: "english"
+
+```
+
+If you use GITHUB_TOKEN, please check jobs permission when leave comment action failed.
 
 ```
 
@@ -26,7 +41,7 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
-          LANGUAGE: "english"
+          LANGUAGE: "korean"
 
 ```
 
