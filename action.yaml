@@ -7,19 +7,15 @@ branding:
 
 inputs:
   OPENAI_API_KEY:
-    description: "OpenAI API Key for test"
+    description: "OpenAI Key for API call"
     required: true
   GITHUB_TOKEN:
-    description: "Token for checkout code and add comment"
+    description: "Token for checkout code and leave comment"
     required: true
   LANGUAGE:
     description: "Language for comments"
     required: false
     default: "English"
-
-outputs:
-  comment:
-    description: "Comment from chatgpt"
 
 runs:
   using: docker

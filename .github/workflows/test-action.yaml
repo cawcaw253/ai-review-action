@@ -6,31 +6,24 @@ on:
 
 jobs:
   test:
-    permissions: write-all
     runs-on: ubuntu-latest
     name: test action
     steps:
       - name: Checkout
         uses: actions/checkout@v3
 
-      - name: OpenAI PR Review
-        uses: detectiveCrow/ai-review-action@latest
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
-          LANGUAGE: "english"
+      # # Uncomment when comment delete feature added
+      # - name: OpenAI PR Review
+      #   uses: detectiveCrow/ai-review-action@latest
+      #   with:
+      #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      #     OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+      #     LANGUAGE: "english"
 
-      - name: Remove all comments on PR
-        uses: izhangzhihao/delete-comment@master
-        with: 
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          delete_user_name: github-actions[bot]
-          issue_number: ${{ github.event.number }} 
-        
       - name: OpenAI review current branch
         uses: ./
         id: review
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          GITHUB_TOKEN: ${{ secrets.GH_PAT }}
           OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
           LANGUAGE: "korean"
