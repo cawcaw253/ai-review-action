@@ -1,8 +1,9 @@
 name: Release Action
 
 on:
-  pull_request:
-    types: [closed]
+  push:
+    branches:
+      - master
 
 jobs:
   create-release:
@@ -18,4 +19,4 @@ jobs:
       uses: ncipollo/release-action@v1
       with:
         bodyFile: "release/note.md"
-        tag: "v1.0.0"
+        tag: "v1.0.1"

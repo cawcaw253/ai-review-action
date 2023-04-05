@@ -12,13 +12,12 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v3
 
-      # # Uncomment when comment delete feature added
-      # - name: OpenAI PR Review
-      #   uses: detectiveCrow/ai-review-action@latest
-      #   with:
-      #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      #     OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
-      #     LANGUAGE: "english"
+      - name: OpenAI review released version
+        uses: detectiveCrow/ai-review-action@latest
+        with:
+          GITHUB_TOKEN: ${{ secrets.GH_PAT }}
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+          LANGUAGE: "english"
 
       - name: OpenAI review current branch
         uses: ./
@@ -27,3 +26,10 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GH_PAT }}
           OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
           LANGUAGE: "korean"
+
+      - name: Delete Review Comments
+        uses: izhangzhihao/delete-comment@master
+        with: 
+          github_token: ${{ secrets.GH_PAT }}
+          delete_user_name: ${{ secrets.GH_UN }}
+          issue_number: ${{ github.event.number }}
