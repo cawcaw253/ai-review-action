@@ -6,17 +6,12 @@ on:
       - master
 
 jobs:
-  create-release:
-    if: github.event.pull_request.merged
+  release-action:
     runs-on: ubuntu-latest
-    permissions:
-      contents: write
     steps:
     - name: Checkout
       uses: actions/checkout@v3
 
-    - name: Release action
-      uses: ncipollo/release-action@v1
+    - uses: go-semantic-release/action@v1
       with:
-        bodyFile: "release/note.md"
-        tag: "v1.0.1"
+        github-token: ${{ secrets.GH_PAT }}
