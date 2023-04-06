@@ -9,9 +9,15 @@ jobs:
   release-action:
     runs-on: ubuntu-latest
     steps:
-    - name: Checkout
-      uses: actions/checkout@v3
-
-    - uses: go-semantic-release/action@v1
-      with:
-        github-token: ${{ secrets.GH_PAT }}
+      - name: Checkout
+        uses: actions/checkout@v3
+      
+      - name: Setup Go
+        uses: actions/setup-go@v3
+        with:
+          go-version: 1.19
+      
+      - name: Release Action
+        uses: go-semantic-release/action@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GH_PAT }}
