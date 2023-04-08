@@ -17334,7 +17334,7 @@ const MAX_PATCH_COUNT = 4000;
 // const MAX_TOKENS = 4096 - 704;
 const MAX_TOKENS = 2048;
 const DEFAULT_LANGUAGE = "english"
-const DEFAULT_MODEL = "gpt-3.5-turbo-0301"
+const DEFAULT_MODEL = "gpt-3.5-turbo"
 
 async function initOpenAI(key) {
   // https://platform.openai.com/docs/api-reference/completions/create
