@@ -2,8 +2,8 @@ name: "OpenAI PR Review"
 author: "detectiveCrow"
 description: "Pull Request code review action with OpenAI"
 branding:
-  icon: message-square
-  color: white
+  icon: "aperture"
+  color: "black"
 
 inputs:
   OPENAI_API_KEY:
@@ -16,6 +16,10 @@ inputs:
     description: "Language for comments"
     required: false
     default: "English"
+  MODEL:
+    description: "Model for chat completion"
+    required: false
+    default: "gpt-3.5-turbo-0301"
 
 runs:
   using: docker
@@ -24,3 +28,4 @@ runs:
     OPENAI_API_KEY: ${{ inputs.OPENAI_API_KEY }}
     GITHUB_TOKEN: ${{ inputs.GITHUB_TOKEN }}
     LANGUAGE: ${{ inputs.LANGUAGE }}
+    MODEL: ${{ inputs.MODEL }}
