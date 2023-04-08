@@ -17330,7 +17330,11 @@ const { Octokit } = __nccwpck_require__(5375);
 const { Configuration, OpenAIApi } = __nccwpck_require__(9211);
 
 const MAX_PATCH_COUNT = 4000;
-const MAX_TOKENS = 3000;
+// TODO : add token counter
+// const MAX_TOKENS = 4096 - 704;
+const MAX_TOKENS = 2048;
+const DEFAULT_LANGUAGE = "english"
+const DEFAULT_MODEL = "gpt-3.5-turbo"
 
 async function initOpenAI(key) {
   // https://platform.openai.com/docs/api-reference/completions/create
@@ -17341,17 +17345,16 @@ async function initOpenAI(key) {
 }
 
 // about model : https://platform.openai.com/docs/models/overview
-async function codeReview(openAI, code, model = 'gpt-3.5-turbo') {
+async function codeReview(openAI, code, language, model) {
   if (!code) {
     return '';
   }
 
-  const language = process.env.LANGUAGE ?  `Answer me in ${process.env.LANGUAGE}` : '';
-  const message = `Below is the code patch, please do a brief code review, and ${language}. if any bug, risk, improvement suggestion please let me know
-  ${code}
-  `;
+  const message = `Below is the code patch, please do a brief code review, and Answer me in ${language}.
+if any bug, risk, improvement suggestion please let me know.
+${code}`;
 
-  console.log(`start chat, message is "${message}"`);
+  console.log("start chat");
 
   try {
     const response = await openAI.createChatCompletion({
@@ -17361,23 +17364,25 @@ async function codeReview(openAI, code, model = 'gpt-3.5-turbo') {
       temperature: 1,
     });
 
-    console.log(`response received! response is "${response.data.choices[0].message.content}"`);
+    console.log(`response received! response is ↓\n"${response.data.choices[0].message.content}"`);
 
     return response.data.choices[0].message.content;
   } catch (error) {
-    console.error(error)
+    console.error(error.response.data)
 
     return error;
   }
 }
 
 async function run() {
+  const { owner, repo } = context.repo;
+  const language = process.env.LANGUAGE || DEFAULT_LANGUAGE
+  const model = process.env.MODEL || DEFAULT_MODEL
+
   // Create octokit instance (bring context from github token)
   const octokit = new Octokit({
     auth: process.env.GITHUB_TOKEN
   });
-
-  const { owner, repo } = context.repo;
 
   // Create new chat instance
   const openAI = await initOpenAI(process.env.OPENAI_API_KEY);
@@ -17419,8 +17424,13 @@ async function run() {
   // Review code
   for (let i = 0; i < changedFiles.length; i++) {
     console.log(`review (${i + 1}/${changedFiles.length}) start`);
+
     const file = changedFiles[i];
     const patch = file.patch || '';
+
+    // Print for test
+    console.log('file : \n' + file)
+    console.log('patch : \n' + String(patch))
 
     if(file.status !== 'modified' && file.status !== 'added') {
       continue;
@@ -17431,8 +17441,8 @@ async function run() {
     }
 
     // Get response from chat instance
-    const response = await codeReview(openAI, String(patch))
-    console.log(`create review comment now...`);
+    const response = await codeReview(openAI, String(patch), language, model)
+
     await octokit.pulls.createReviewComment({
       repo: repo,
       owner: owner,

@@ -42,16 +42,18 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
           LANGUAGE: "korean"
+          MODEL: "gpt-3.5-turbo"
 
 ```
 
 # Inputs
 
-| Inputs         | Description                               | Required | Default |
-|----------------|-------------------------------------------|----------|---------|
-| OPENAI_API_KEY | OpenAI Key for API call                   | true     | <None>  |
-| GITHUB_TOKEN   | Token for checkout code and leave comment | true     | <None>  |
-| LANGUAGE       | Language for comments                     | false    | English |
+| Inputs         | Description                               | Required | Default       |
+|----------------|-------------------------------------------|----------|---------------|
+| OPENAI_API_KEY | OpenAI Key for API call                   | true     | <None>        |
+| GITHUB_TOKEN   | Token for checkout code and leave comment | true     | <None>        |
+| LANGUAGE       | Language for comments                     | false    | English       |
+| MODEL          | Model for chat completion                 | false    | gpt-3.5-turbo |
 
 # Outputs
 
