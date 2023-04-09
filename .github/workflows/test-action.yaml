@@ -12,17 +12,17 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v3
 
-      # - name: OpenAI review released version
-      #   uses: detectiveCrow/ai-review-action@latest
-      #   with:
-      #     GITHUB_TOKEN: ${{ secrets.GH_PAT }}
-      #     OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
-      #     LANGUAGE: "english"
-
-      - name: OpenAI review current branch
-        uses: ./
-        id: review
+      - name: OpenAI review released version
+        uses: detectiveCrow/ai-review-action@latest
         with:
           GITHUB_TOKEN: ${{ secrets.GH_PAT }}
           OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
           LANGUAGE: "korean"
+
+      # - name: OpenAI review current branch
+      #   uses: ./
+      #   id: review
+      #   with:
+      #     GITHUB_TOKEN: ${{ secrets.GH_PAT }}
+      #     OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+      #     LANGUAGE: "korean"
