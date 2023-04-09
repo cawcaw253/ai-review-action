@@ -5,24 +5,44 @@ on:
     types: [opened, synchronize]
 
 jobs:
-  test:
+  build:
     runs-on: ubuntu-latest
-    name: test action
+    name: Build action with node
     steps:
       - name: Checkout
         uses: actions/checkout@v3
-
-      - name: OpenAI review released version
-        uses: detectiveCrow/ai-review-action@latest
+      - name: NPM install and build
+        run: |
+          npm install
+          npm run build
+      - name: Upload to artifact
+        uses: actions/upload-artifact@v3
         with:
-          GITHUB_TOKEN: ${{ secrets.GH_PAT }}
-          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
-          LANGUAGE: "korean"
-
-      # - name: OpenAI review current branch
-      #   uses: ./
-      #   id: review
+          name: action
+          path: ./dist/
+  test:
+    runs-on: ubuntu-latest
+    needs: [build]
+    name: Test action
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+      - name: Download from artifact
+        uses: actions/download-artifact@v3
+        with:
+          name: action
+          path: ./dist
+      # - name: OpenAI review released version
+      #   uses: detectiveCrow/ai-review-action@latest
       #   with:
       #     GITHUB_TOKEN: ${{ secrets.GH_PAT }}
       #     OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
       #     LANGUAGE: "korean"
+      - run: ls -la
+      - name: OpenAI review current branch
+        uses: ./
+        id: review
+        with:
+          GITHUB_TOKEN: ${{ secrets.GH_PAT }}
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+          LANGUAGE: "korean"
