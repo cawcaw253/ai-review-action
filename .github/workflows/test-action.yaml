@@ -7,10 +7,13 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-    name: Build action with node
+    name: Build action with node and upload to artifact
     steps:
       - name: Checkout
         uses: actions/checkout@v3
+      - name: Delete the existing dist folder
+        run: |
+          rm -rf dist
       - name: NPM install and build
         run: |
           npm install
@@ -27,18 +30,14 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v3
+      - name: Delete the existing dist folder
+        run: |
+          rm -rf dist
       - name: Download from artifact
         uses: actions/download-artifact@v3
         with:
           name: action
           path: ./dist
-      # - name: OpenAI review released version
-      #   uses: detectiveCrow/ai-review-action@latest
-      #   with:
-      #     GITHUB_TOKEN: ${{ secrets.GH_PAT }}
-      #     OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
-      #     LANGUAGE: "korean"
-      - run: ls -la
       - name: OpenAI review current branch
         uses: ./
         id: review
@@ -46,3 +45,9 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GH_PAT }}
           OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
           LANGUAGE: "korean"
+      # - name: OpenAI review released version
+      #   uses: detectiveCrow/ai-review-action@latest
+      #   with:
+      #     GITHUB_TOKEN: ${{ secrets.GH_PAT }}
+      #     OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+      #     LANGUAGE: "korean"
