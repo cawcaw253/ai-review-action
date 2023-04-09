@@ -1,3 +1,4 @@
+import * as core from '@actions/core';
 const { context } = require('@actions/github');
 const { Octokit } = require('@octokit/rest');
 const { Configuration, OpenAIApi } = require("openai");
@@ -49,16 +50,16 @@ ${code}`;
 
 async function run() {
   const { owner, repo } = context.repo;
-  const language = process.env.LANGUAGE || DEFAULT_LANGUAGE
-  const model = process.env.MODEL || DEFAULT_MODEL
+  const language = core.getInput('LANGUAGE') || DEFAULT_LANGUAGE
+  const model = core.getInput('MODEL') || DEFAULT_MODEL
 
   // Create octokit instance (bring context from github token)
   const octokit = new Octokit({
-    auth: process.env.GITHUB_TOKEN
+    auth: core.getInput('GITHUB_TOKEN')
   });
 
   // Create new chat instance
-  const openAI = await initOpenAI(process.env.OPENAI_API_KEY);
+  const openAI = await initOpenAI(core.getInput('OPENAI_API_KEY'));
 
   // Get changed files
   const { data: compareCommits } = await octokit.repos.compareCommits({

@@ -22,5 +22,5 @@ inputs:
     default: "gpt-3.5-turbo"
 
 runs:
-  using: node16
-  main: dist/index.js
+  using: "node16"
+  main: "dist/index.js"
