@@ -22,10 +22,5 @@ inputs:
     default: "gpt-3.5-turbo"
 
 runs:
-  using: docker
-  image: Dockerfile
-  env:
-    OPENAI_API_KEY: ${{ inputs.OPENAI_API_KEY }}
-    GITHUB_TOKEN: ${{ inputs.GITHUB_TOKEN }}
-    LANGUAGE: ${{ inputs.LANGUAGE }}
-    MODEL: ${{ inputs.MODEL }}
+  using: "node16"
+  main: "dist/index.js"
