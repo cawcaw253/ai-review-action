@@ -9,7 +9,7 @@ const DEFAULT_MAX_TOKENS = 2048;
 const LOG_LEVEL_INFO = "info"
 const LOG_LEVEL_ERROR = "error"
 
-class OpenAIScanner {
+class OpenAIConnector {
   constructor(apiKey) {
     // https://platform.openai.com/docs/api-reference/completions/create
     const configuration = new Configuration({
@@ -55,4 +55,4 @@ ${patch}`
   }
 }
 
-export default OpenAIScanner;
+export default OpenAIConnector;
