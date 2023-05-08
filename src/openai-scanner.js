@@ -2,6 +2,9 @@ const { Configuration, OpenAIApi } = require("openai");
 
 const DEFAULT_LANGUAGE = "english"
 const DEFAULT_MODEL = "gpt-3.5-turbo" // about model : https://platform.openai.com/docs/models/overview
+// TODO : add token counter
+// const MAX_TOKENS = 4096 - 704;
+const DEFAULT_MAX_TOKENS = 2048;
 
 const LOG_LEVEL_INFO = "info"
 const LOG_LEVEL_ERROR = "error"
@@ -40,7 +43,7 @@ ${patch}`
     await this.openAI.createChatCompletion({
       model: model,
       messages: [{ role: 'user', content: String(message) }],
-      max_tokens: MAX_TOKENS,
+      max_tokens: DEFAULT_MAX_TOKENS,
       temperature: 1,
     }).then((response) => {
       this.logger(`response received! response is ↓\n"${response.data.choices[0].message.content}"`);

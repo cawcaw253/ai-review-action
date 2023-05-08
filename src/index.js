@@ -4,16 +4,11 @@ const { context } = require('@actions/github');
 const { Octokit } = require('@octokit/rest');
 
 const MAX_PATCH_COUNT = 4000;
-// TODO : add token counter
-// const MAX_TOKENS = 4096 - 704;
-const MAX_TOKENS = 2048;
-const DEFAULT_LANGUAGE = "english"
-const DEFAULT_MODEL = "gpt-3.5-turbo"
 
 async function run() {
   const { owner, repo } = context.repo;
-  const language = core.getInput('LANGUAGE') || DEFAULT_LANGUAGE
-  const model = core.getInput('MODEL') || DEFAULT_MODEL
+  const language = core.getInput('LANGUAGE')
+  const model = core.getInput('MODEL')
 
   // Create octokit instance (bring context from github token)
   const octokit = new Octokit({
