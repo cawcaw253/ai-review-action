@@ -39,6 +39,7 @@ class Integrator {
 
   async filterChangedFiles() {
     // On Synchronize Action
+    console.log(this.commits)
     if (context.payload.action === 'synchronize' && this.commits.length >= 2) {
       const {
         data: { files },
