@@ -1,7 +1,7 @@
 import * as core from '@actions/core';
+import openAIScanner from './openai-scanner.js';
 const { context } = require('@actions/github');
 const { Octokit } = require('@octokit/rest');
-const { Configuration, OpenAIApi } = require("openai");
 
 const MAX_PATCH_COUNT = 4000;
 // TODO : add token counter
@@ -9,44 +9,6 @@ const MAX_PATCH_COUNT = 4000;
 const MAX_TOKENS = 2048;
 const DEFAULT_LANGUAGE = "english"
 const DEFAULT_MODEL = "gpt-3.5-turbo"
-
-async function initOpenAI(key) {
-  // https://platform.openai.com/docs/api-reference/completions/create
-  const configuration = new Configuration({
-    apiKey: key,
-  });
-  return new OpenAIApi(configuration);
-}
-
-// about model : https://platform.openai.com/docs/models/overview
-async function codeReview(openAI, code, language, model) {
-  if (!code) {
-    return '';
-  }
-
-  const message = `Below is the code patch, please do a brief code review, and Answer me in ${language}.
-if any bug, risk, improvement suggestion please let me know.
-${code}`;
-
-  console.log("start chat");
-
-  try {
-    const response = await openAI.createChatCompletion({
-      model: model,
-      messages: [{ role: 'user', content: String(message) }],
-      max_tokens: MAX_TOKENS,
-      temperature: 1,
-    });
-
-    console.log(`response received! response is ↓\n"${response.data.choices[0].message.content}"`);
-
-    return response.data.choices[0].message.content;
-  } catch (error) {
-    console.error(error.response.data)
-
-    return error;
-  }
-}
 
 async function run() {
   const { owner, repo } = context.repo;
@@ -59,8 +21,7 @@ async function run() {
   });
 
   // Create new chat instance
-  const openAI = await initOpenAI(core.getInput('OPENAI_API_KEY'));
-
+  const openAI = new openAIScanner(core.getInput('OPENAI_API_KEY'))
   // Get changed files
   const { data: compareCommits } = await octokit.repos.compareCommits({
     owner: owner,
@@ -115,7 +76,7 @@ async function run() {
     }
 
     // Get response from chat instance
-    const response = await codeReview(openAI, String(patch), language, model)
+    const response = await openAI.codeReview(String(patch), language, model)
 
     await octokit.pulls.createReviewComment({
       repo: repo,
