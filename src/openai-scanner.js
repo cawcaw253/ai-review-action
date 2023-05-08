@@ -40,7 +40,7 @@ ${patch}`
     const message = this.buildMessage(patch, language);
 
     this.logger(`start chat`);
-    await this.openAI.createChatCompletion({
+    return await this.openAI.createChatCompletion({
       model: model,
       messages: [{ role: 'user', content: String(message) }],
       max_tokens: DEFAULT_MAX_TOKENS,

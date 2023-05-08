@@ -58,9 +58,9 @@ async function run() {
     const file = changedFiles[i];
     const patch = file.patch || '';
 
-    // Print for test
-    console.log('file : \n' + file)
-    console.log('patch : \n' + String(patch))
+    // // Print for test
+    // console.log('file : \n' + file)
+    // console.log('patch : \n' + String(patch))
 
     if(file.status !== 'modified' && file.status !== 'added') {
       continue;
