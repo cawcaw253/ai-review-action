@@ -31,19 +31,22 @@ class Integrator {
       head: context.payload.pull_request.head.sha,
     })
 
-    this.changedFiles = compareCommits.files.changedFiles;
-    this.commits = compareCommits.files.commits;
+    const { files: changedFiles, commits } = compareCommits
 
+    this.changedFiles = changedFiles;
+    this.commits = commits;
+
+    console.log("in fetch : " + this.commits)
     return this;
   }
 
   async filterChangedFiles() {
     // On Synchronize Action
-    console.log(this.commits)
+    console.log("in filter : " + this.commits)
     if (context.payload.action === 'synchronize' && this.commits.length >= 2) {
       const {
         data: { files },
-      } = await octokit.repos.compareCommits({
+      } = await this.octokit.repos.compareCommits({
         owner: this.repo.owner,
         repo: this.repo.repo,
         base: this.commits[this.commits.length - 2].sha,
@@ -81,7 +84,7 @@ class Integrator {
   
       const response = await this.openAI.codeReview(String(patch), this.language, this.model)
   
-      await octokit.pulls.createReviewComment({
+      await this.octokit.pulls.createReviewComment({
         owner: this.repo.owner,
         repo: this.repo.repo,
         pull_number: context.payload.pull_request.number,
