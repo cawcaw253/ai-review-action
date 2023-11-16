@@ -1,5 +1,5 @@
 name: "OpenAI PR Review"
-author: "detectiveCrow"
+author: "cawcaw253"
 description: "Pull Request code review action with OpenAI"
 branding:
   icon: "aperture"
