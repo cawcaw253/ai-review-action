@@ -11,7 +11,7 @@ When you use Personal Access Token, please check permission.
 ```
 
 name: OpenAI PR Review
-uses: detectiveCrow/ai-review-action@latest
+uses: cawcaw253/ai-review-action@latest
 with:
   GITHUB_TOKEN: ${{ secrets.GH_PAT }}
   OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
@@ -37,7 +37,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v3
       - name: OpenAI PR Review
-        uses: detectiveCrow/ai-review-action@latest
+        uses: cawcaw253/ai-review-action@latest
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
